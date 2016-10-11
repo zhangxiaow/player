@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>音乐播放器</title>
+    <link rel="stylesheet" type="text/css" href="css/player.css">
+</head>
+<body>
+    <div id="box">
+        <div class="main">
+            <div class="top">
+                <i class="iconfont signal">&#xe697;</i>
+                <span class="time">4:20PM</span>
+                <i class="iconfont">&#xe629;</i>
+                <i class="iconfont">&#xe613;</i>
+                <i class="iconfont">&#xe62d;</i>
+                <i class="iconfont battery">&#xe626;</i>
+            </div>
+            <div class="container">
+                <div class="favorite">
+                    <i class="iconfont arrow">&#xe619;</i>
+                    <span class="collect">我的收藏</span>
+                    <i class="iconfont search">&#xe60c;</i>
+                    <i class="iconfont search">&#xe62e;</i>
+                </div>
+                <div class="song">
+                    <ul>
+                        <li>
+                            <div class="number">1</div>
+                            <div class="show">
+                                <p>带着梦想去旅行</p>
+                                <p>庄心妍</p>
+                                
+                            </div>
+                            <i class="iconfont del">&#xe616;</i>
+                        </li>
+                        <li>
+                            <div class="number">2</div>
+                            <div class="show">
+                                <p>宠爱</p>
+                                <p>TFBOYS</p>
+                                
+                            </div>
+                            <i class="iconfont del">&#xe616;</i>
+                        </li>
+                        <li>
+
+                            <div class="number">3</div>
+                            <div class="show">
+                                <p>十年</p>
+                                <p>陈奕迅</p>
+                               
+                            </div>
+                            <i class="iconfont del">&#xe616;</i>
+                        </li>
+                        <li>
+
+                            <div class="number">4</div>
+                            <div class="show">
+                                <p>泡沫</p>
+                                <p>邓紫棋</p>
+                                
+                            </div>
+                            <i class="iconfont del">&#xe616;</i>
+                        </li>
+                        <li>
+
+                            <div class="number">5</div>
+                            <div class="show">
+                                <p>童话</p>
+                                <p>光良</p>
+                               
+                            </div>
+                            <i class="iconfont del">&#xe616;</i>
+                        </li>
+                        <li>
+
+                            <div class="number">6</div>
+                            <div class="show">
+                                <p>第一次</p>
+                                <p>光良</p>
+                                
+                            </div>
+                            <i class="iconfont del">&#xe616;</i>
+                        </li>
+                        <li>
+
+                            <div class="number">7</div>
+                            <div class="show">
+                                <p>一眼万年</p>
+                                <p>SHE</p>
+                               
+                            </div>
+                            <i class="iconfont del">&#xe616;</i>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="play">
+                    <div class="go">
+                        <div class="progress"></div>
+                        <div class="btnCtrl"></div>
+                    </div>
+                    <div class="img">
+                        
+                    </div>
+                    <i class="iconfont forword">&#xe606;</i>
+                    <div class="operate">
+                        <i class="iconfont pause">&#xe78a;</i>
+                        
+                    </div>
+                    <i class="iconfont back">&#xe607;</i>
+                    <i class="iconfont like">&#xe621;</i>
+                </div>
+
+            </div>
+            <div class="choice">
+                <div class="denglu">
+                    <span>
+                        <img src="images/header.jpg"/>
+                    </span>
+                    <p>
+                        <span>点击头像登录</span>
+                        <span>共收藏0首歌曲</span>
+                    </p>
+                </div>
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--<audio src="song/宠爱.mp3"></audio>-->
+
+<script>
+    var song = document.querySelector(".song");
+    var body = document.querySelector("body");
+    var operate = document.querySelector(".operate");
+    var pause = document.querySelector(".pause");
+    var playing = document.querySelector(".playing");
+    var go = document.querySelector(".go");
+    var progress = document.querySelector(".progress");
+    var btnCtrl = document.querySelector(".btnCtrl");
+    var forword = document.querySelector(".forword");
+    var img = document.querySelector(".img");
+    var back = document.querySelector(".back");
+    var lis = document.querySelectorAll(".song ul li");
+    var dels = document.querySelectorAll(".song ul li .del");
+    var arrow = document.querySelector(".arrow");
+    var container = document.querySelector(".container");
+    var choices = document.querySelectorAll(".choice ul li");
+    var arr1 = ["song/带着梦想去旅行.mp3","song/宠爱.mp3","song/十年.mp3","song/泡沫.mp3","song/童话.mp3","song/第一次.mp3","song/一眼万年.mp3"];
+    var arr2 = ["images/1.jpg","images/2.jpg","images/3.jpg","images/4.jpg","images/5.jpg","images/6.jpg","images/7.jpg"];
+    var index = 0;
+
+    var audio = document.createElement("audio");
+    body.appendChild(audio);
+    audio.src = arr1[index];
+   img1 = document.createElement("img");
+    img.appendChild(img1);
+    img1.src = arr2[index];
+
+    //播放与暂停函数
+    var  handle = function(){
+        if(audio.paused){
+            pause.innerHTML = "&#xe62a;";
+            audio.play();
+        }else{
+            pause.innerHTML = "&#xe78a;";
+            audio.pause();
+        }
+    };
+    operate.addEventListener("click",function(){
+        handle();
+
+    });
+    //进度条
+    audio.ontimeupdate  =function(){
+        var scale = audio.currentTime / audio.duration;
+        progress.style.width = go.offsetWidth * scale +"px";
+        btnCtrl.style.left =  (go.offsetWidth * scale)-btnCtrl.offsetWidth/2 +"px";
+
+    };
+    //上一首
+    forword.addEventListener("click",function(){
+        index--;
+        if(index <= 0){
+            index = 0;
+        }
+        audio.src = arr1[index];
+        img1.src = arr2[index];
+        handle();
+    });
+    //下一首
+    back.addEventListener("click",function(){
+        index++;
+        if(index >= 7){
+            index = 6;
+        }
+        audio.src = arr1[index];
+        img1.src = arr2[index];
+        handle();
+    });
+
+    for(var i=0;i<lis.length;i++){
+        lis[i].index =i;
+        lis[i].onclick = function(){
+            // console.log()
+            index = this.index;
+            audio.src = arr1[index];
+            img1.src = arr2[index];
+            handle();
+        }
+    }
+    // 删除一首音乐
+    for(var i=0;i<dels.length;i++){
+        dels[i].index = i;
+        dels[i].onclick = function(){
+            lis[this.index].remove();
+        }
+    }
+
+    arrow.addEventListener("click",function(){
+
+        if(container.style.left == 0){
+            container.style.left = "360px";
+        }else{
+            container.style.left = 0;
+        }
+    });
+
+    for(var j = 0; j<choices.length; j++){
+        choices[j].index = j;
+        choices[j].onmouseenter = function(){
+            for(var i = 0;i<choices.length;i++){
+                choices[i].className = "";
+            }
+            choices[this.index].className = "active";
+        }
+        choices[j].onmouseleave = function(){
+
+            choices[this.index].className = "";
+        }
+    }
+
+</script>
+</body>
+</html>
